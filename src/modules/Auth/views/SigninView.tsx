@@ -1,11 +1,18 @@
-import React, {FC} from "react";
-import logo from "assets/images/logo.png";
-import google from "assets/images/google.svg";
-import "./signin.scss";
-import Button, {Size, Variant} from "components/Button";
+import React, {FC, MouseEvent} from "react";
+import Button from "components/Button";
 import GoogleIcon from "components/Icons/GoogleIcon";
+import {useNavigate} from "react-router-dom";
+import {Size, Variant} from "utils/types/global.types";
+import logo from "assets/images/logo.png";
+import "./signin.scss";
 
 const SigninView: FC = () => {
+  const navigate = useNavigate();
+
+  function signIn(e: MouseEvent) {
+    navigate("/dashboard");
+  }
+
   return (
     <div className="signin-container">
       <header className="signin__header logo">
@@ -16,17 +23,17 @@ const SigninView: FC = () => {
         <p>Login or register to start building your projects today.</p>
 
         <div className="content__buttons">
-          <Button variant={Variant.Primary} size={Size.L}>
+          <Button variant={Variant.Primary} size={Size.Large} onClick={signIn}>
             <GoogleIcon />
             Sign in with GitHub
           </Button>
 
           <div className="buttons__row">
-            <Button variant={Variant.Secondary}>
+            <Button variant={Variant.Secondary} onClick={signIn}>
               <GoogleIcon />
               Sign in with Google
             </Button>
-            <Button variant={Variant.Secondary}>
+            <Button variant={Variant.Secondary} onClick={signIn}>
               <GoogleIcon />
               Sign in with Google
             </Button>

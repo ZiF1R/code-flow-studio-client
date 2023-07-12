@@ -1,0 +1,77 @@
+@use "assets/styles/variables";
+
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+
+  .header__buttons {
+    display: flex;
+    gap: 5px;
+  }
+}
+
+.header__logo {
+  svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  path {
+    stroke: variables.$gray-color;
+    transition: variables.$transition-primary;
+  }
+
+  &:hover {
+    path {
+      stroke: variables.$white-color;
+    }
+  }
+}
+
+.header__menu {
+  .menu__list {
+    //display: flex;
+    flex-direction: column;
+    position: relative;
+    list-style-type: none;
+    display: none;
+
+    background: variables.$dark-gray-color;
+    width: fit-content;
+    padding: 5px 0;
+    border-radius: 3px;
+  }
+
+  a.list__item {
+    width: 100%;
+    color: variables.$light-gray-color;
+    text-decoration: none;
+    cursor: default;
+  }
+
+  .list__item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 7px;
+
+    padding: 8px 15px;
+    color: variables.$light-gray-color;
+    font-weight: 500;
+    font-size: 0.85em;
+    transition: variables.$transition-primary;
+
+    &:hover {
+      background: lighten(variables.$dark-gray-color, 7%);
+    }
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    path {
+      stroke: variables.$light-gray-color;
+    }
+  }
+}
