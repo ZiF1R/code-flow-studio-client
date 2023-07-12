@@ -1,7 +1,8 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import ArrowDownIcon from "components/Icons/ArrowDownIcon";
 import {Link} from "react-router-dom";
 
+// TODO: create type for menu
 const menu = [
   {
     icon: "ProfileIcon",
@@ -42,15 +43,18 @@ const menu = [
 const menuIconsBaseUrl = "modules/Dashboard/components/Header/Icons";
 
 const Menu: FC = () => {
+  const [showMenu, setShowMenu] = useState(false);
+
   return (
     <nav className="header__menu">
-      <div className="header__logo">
+      <label className="header__logo">
         <ArrowDownIcon />
-      </div>
-      <ul className="menu__list">
+        <input onBlur={() => setShowMenu(false)} onFocus={() => setShowMenu(true)} type="text"/>
+      </label>
+      <ul className="menu__list" style={{ display: showMenu ? "flex" : "none" }}>
         {menu.map((item, i) => {
           if (item.divider) {
-            return (<div className="list__divider"></div>)
+            return (<div key={i} className="list__divider"></div>)
           }
 
           const { default: IconComponent } =

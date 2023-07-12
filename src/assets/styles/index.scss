@@ -63,21 +63,6 @@ input {
   }
 }
 
-label.search-input__container {
-  display: flex;
-  align-items: center;
-
-  svg {
-    width: 20px;
-    height: 20px;
-    margin-bottom: 3px;
-  }
-
-  path, circle {
-    stroke: variables.$gray-color;
-  }
-}
-
 button {
   display: flex;
   align-items: center;

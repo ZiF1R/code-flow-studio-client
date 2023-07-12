@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 
-const Dashboard: FC = () => {
+const Recent: FC = () => {
   return (
     <div>
       <h2>Recent</h2>
@@ -8,4 +8,4 @@ const Dashboard: FC = () => {
   );
 }
 
-export default Dashboard;
+export default Recent;

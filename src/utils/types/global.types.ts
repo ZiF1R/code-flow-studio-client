@@ -25,7 +25,7 @@ export enum Size {
 interface IButton extends ComponentBaseProps {
   variant?: Variant,
   size?: Size,
-  onClick?: (event: MouseEvent) => void ,
+  onClick?: (event: MouseEvent) => void,
 }
 
 export type {
