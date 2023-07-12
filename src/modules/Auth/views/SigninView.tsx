@@ -4,7 +4,7 @@ import GoogleIcon from "components/Icons/GoogleIcon";
 import {useNavigate} from "react-router-dom";
 import {Size, Variant} from "utils/types/global.types";
 import logo from "assets/images/logo.png";
-import "./signin.scss";
+import "../assets/signin.scss";
 
 const SigninView: FC = () => {
   const navigate = useNavigate();
