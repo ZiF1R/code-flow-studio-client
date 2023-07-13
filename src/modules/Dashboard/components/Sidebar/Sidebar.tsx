@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
-import "modules/Dashboard/assets/sidebar.scss";
 import {Link} from "react-router-dom";
+import "modules/Dashboard/assets/sidebar.scss";
+import TeamsSelect from "modules/Dashboard/components/Sidebar/TeamsSelect";
 
 // TODO: create type for menu
 const menu = [
@@ -60,12 +61,16 @@ const menu = [
   },
 ];
 const menuIconsBaseUrl = "modules/Dashboard/components/Sidebar/Icons";
+const defaultPageLink = "/dashboard/recent";
 
 const Sidebar: FC = () => {
-  const [activeLinkIndex, setActiveLinkIndex] = useState<null | number>(null);
+  const [activeLinkIndex, setActiveLinkIndex] = useState<null | number>(
+    menu.findIndex(item => item.link === defaultPageLink)
+  );
 
   return (
     <aside>
+      <TeamsSelect />
 
       <ul className="menu__list">
         {menu.map((item, i) => {

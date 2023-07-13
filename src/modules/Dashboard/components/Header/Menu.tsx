@@ -49,7 +49,7 @@ const Menu: FC = () => {
     <nav className="header__menu">
       <label className="header__logo">
         <ArrowDownIcon />
-        <input onBlur={() => setShowMenu(false)} onFocus={() => setShowMenu(true)} type="text"/>
+        <input onChange={(event) => setShowMenu(event.target.checked)} type="checkbox"/>
       </label>
       <ul className="menu__list" style={{ display: showMenu ? "flex" : "none" }}>
         {menu.map((item, i) => {

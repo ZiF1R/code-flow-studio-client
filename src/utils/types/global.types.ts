@@ -12,6 +12,7 @@ export enum Theme {
 export enum Variant {
   Primary = "button_primary",
   Secondary = "button_secondary",
+  Contained = "button_contained",
   Outlined = "button_outlined",
   Text = "button_text",
 }
@@ -26,6 +27,7 @@ interface IButton extends ComponentBaseProps {
   variant?: Variant,
   size?: Size,
   onClick?: (event: MouseEvent) => void,
+  className?: string,
 }
 
 export type {

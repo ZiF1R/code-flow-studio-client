@@ -29,6 +29,10 @@ aside {
     gap: 12px;
     width: 100%;
 
+    & * {
+      cursor: pointer;
+    }
+
     cursor: pointer;
     text-decoration: none;
 
@@ -38,7 +42,7 @@ aside {
     font-size: 0.95em;
     transition: variables.$transition-primary;
 
-    &:hover, .item_active {
+    &:hover, &.item_active {
       color: variables.$white-color;
 
       path {
