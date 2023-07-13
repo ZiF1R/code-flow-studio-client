@@ -67,7 +67,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 7px;
   height: fit-content;
 
   background: none;
@@ -142,12 +142,21 @@ button {
         }
       }
     }
+    &contained {
+      background: variables.$white-color;
+      color: variables.$black-color;
+
+      &:hover {
+        background: darken(variables.$white-color, 15%);
+      }
+    }
     &large {
       padding: 14px 30px;
       font-size: 1.05em;
     }
     &small {
       padding: 6px 8px;
+      gap: 5px;
     }
   }
 }

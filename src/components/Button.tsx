@@ -5,8 +5,15 @@ import {
   Variant
 } from "utils/types/global.types";
 
-const Button: FC<IButton> = ({children, variant = Variant.Text, size = Size.Medium, onClick= () => {}}) => {
-  const classes = `${variant} ${size}`;
+const Button: FC<IButton> = (props) => {
+  const {
+    children,
+    className = "",
+    variant = Variant.Text,
+    size = Size.Medium,
+    onClick = () => {}
+  } = props;
+  const classes = `${variant} ${size} ${className}`;
 
     return (
       <button className={classes} onClick={onClick}>
