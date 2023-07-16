@@ -46,7 +46,7 @@
     background: variables.$dark-gray-color;
     width: fit-content;
     padding: 5px 0;
-    border-radius: 3px;
+    border-radius: variables.$border-radius;
   }
 
   a.list__item {

@@ -1,4 +1,6 @@
 import React, {FC} from 'react';
+import {Link} from "react-router-dom";
+import CardMenu from "modules/Dashboard/components/Recent/CardMenu";
 
 // TODO: Type for card
 interface ICardsBlock {
@@ -15,7 +17,15 @@ const CardsBlock: FC<ICardsBlock> = (props) => {
 
       <div className="cards-block__list">
         {cards.map((card, i) => (
-          <p>{card.name}</p>
+          <Link to={`/p/${card.name}`} className="cards-block__card">
+            <header className="card__header">
+              <h4>{card.name}</h4>
+              <CardMenu />
+            </header>
+            <footer className="card__footer">
+              <time>{card.lastUpdate}</time>
+            </footer>
+          </Link>
         ))}
       </div>
     </div>

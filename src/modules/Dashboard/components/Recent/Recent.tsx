@@ -56,6 +56,7 @@ const Recent: FC = () => {
       </div>
 
       <CardsBlock title="Pick up where you left off" cards={cards} />
+      <CardsBlock title="Pick up where you left off" cards={cards} />
     </div>
   );
 }

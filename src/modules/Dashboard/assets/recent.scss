@@ -1,5 +1,9 @@
 @use "assets/styles/_variables";
 
+$gap: 15px;
+$width: 23%;
+$height: 150px;
+
 .recent__container {
   width: 100%;
 }
@@ -7,14 +11,73 @@
 .recent__actions {
   display: flex;
   position: relative;
-  gap: 15px;
+  gap: $gap;
   width: 100%;
   margin-top: 35px;
 
   button {
     gap: 10px;
     padding: 17px 30px;
-    width: 20%;
+    width: $width;
     font-size: 0.85em;
+  }
+}
+
+.cards-block__container {
+  padding: 45px 0 20px;
+
+  h3 {
+    padding-bottom: 25px;
+  }
+}
+
+.cards-block__list {
+  display: flex;
+  gap: $gap;
+  flex-wrap: wrap;
+
+  .cards-block__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 25px;
+    height: $height;
+    width: $width;
+    background: darken(variables.$dark-gray-color, 5%);
+    color: variables.$white-color;
+
+    transition: variables.$transition-primary;
+    border-radius: variables.$border-radius;
+    text-decoration: none;
+    cursor: pointer;
+
+    .card__header {
+      display: flex;
+      position: relative;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h4 {
+      font-size: 0.9em;
+    }
+
+    time {
+      font-size: 0.75em;
+    }
+
+    &:hover {
+      //background: variables.$dark-gray-color;
+    }
+  }
+}
+
+.card__menu {
+  z-index: 10;
+  position: absolute;
+  right: 0;
+
+  button {
+
   }
 }
