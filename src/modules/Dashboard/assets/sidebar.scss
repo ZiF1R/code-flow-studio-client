@@ -1,0 +1,67 @@
+@use "../../../assets/styles/_variables";
+
+aside {
+  width: variables.$sidebar-width;
+}
+
+aside {
+  .menu__list {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    list-style-type: none;
+
+    width: variables.$sidebar-width;
+    padding: 5px 0;
+    border-radius: variables.$border-radius;
+  }
+
+  .list__divider {
+    padding: 30px 0 10px 15px;
+    font-size: 0.78em;
+    color: darken(variables.$gray-color, 12%);
+  }
+
+  a.list__item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 12px;
+    width: 100%;
+
+    & * {
+      cursor: pointer;
+    }
+
+    cursor: pointer;
+    text-decoration: none;
+
+    padding: 8px 15px;
+    color: lighten(variables.$gray-color, 5%);
+    font-weight: 500;
+    font-size: 0.95em;
+    transition: variables.$transition-primary;
+
+    &:hover, &.item_active {
+      color: variables.$white-color;
+
+      path {
+        stroke: variables.$white-color;
+      }
+    }
+
+    &:hover {
+      background: variables.$dark-gray-color;
+    }
+
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    path {
+      transition: variables.$transition-primary;
+      stroke: lighten(variables.$gray-color, 5%);
+    }
+  }
+}

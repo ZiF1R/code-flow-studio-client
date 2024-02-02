@@ -1,0 +1,54 @@
+@use "../../../assets/styles/_variables";
+
+.signin-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 5% 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.signin__content {
+  text-align: center;
+
+  h1 {
+    font-weight: 600;
+    font-size: 3em;
+    margin-bottom: 15px;
+    line-height: 1.2em;
+  }
+
+  p {
+    color: variables.$gray-color;
+  }
+
+  .content__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 35px;
+
+    .buttons__row {
+      display: flex;
+      gap: 10px;
+
+      & > button {
+        width: 50%;
+      }
+    }
+  }
+}
+
+.signin__footer p {
+  font-size: 11px;
+  line-height: 1.3em;
+  text-align: center;
+  color: variables.$gray-color;
+
+  a {
+    color: variables.$gray-color;
+  }
+}

@@ -1,0 +1,184 @@
+@use "theme";
+@use "variables";
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+body {
+  @include theme.setTheme("light");
+
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+}
+
+body[data-theme="light"] {
+  @include theme.setTheme("light");
+}
+
+body[data-theme="dark"] {
+  @include theme.setTheme("dark");
+}
+
+a {
+  cursor: pointer;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Lato', sans-serif;
+}
+
+svg {
+  width: 15px;
+  height: 15px;
+}
+
+.container {
+  padding: 15px;
+}
+
+input {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: auto;
+  color: variables.$gray-color;
+  padding: 0 7px;
+
+  &:hover::placeholder {
+    color: variables.$light-gray-color;
+  }
+  &:focus::placeholder {
+    color: lighten(variables.$dark-gray-color, 13%);
+  }
+
+  &::placeholder {
+    transition: variables.$transition-primary;
+    padding-left: 2px;
+  }
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: fit-content;
+
+  background: none;
+  outline: none;
+  border: none;
+  color: variables.$black-color;
+
+  cursor: pointer;
+  padding: 10px 30px;
+  font-weight: 500;
+  border-radius: variables.$border-radius;
+  transition: variables.$transition-primary;
+
+  & * {
+    cursor: pointer;
+  }
+
+  &.button_{
+    &primary {
+      background: variables.$primary-color;
+      color: variables.$white-color;
+
+      &:hover {
+        background: darken(variables.$primary-color, 5%);
+      }
+
+      &:disabled {
+        opacity: 0.3;
+      }
+    }
+    &secondary {
+      color: variables.$gray-color;
+      background: variables.$dark-gray-color;
+      border: 1px solid lighten(variables.$dark-gray-color, 5%);
+
+      svg path {
+        fill: variables.$gray-color;
+        transition: variables.$transition-primary;
+      }
+
+      &:hover {
+        background: lighten(variables.$dark-gray-color, 2%);
+        color: lighten(variables.$gray-color, 20%);
+
+        path {
+          fill: lighten(variables.$gray-color, 20%);
+        }
+      }
+    }
+    &text {
+      color: variables.$gray-color;
+      background: none;
+
+      svg path {
+        &[stroke] {
+          stroke: variables.$gray-color;
+        }
+        &[fill] {
+          fill: variables.$gray-color;
+        }
+
+        transition: variables.$transition-primary;
+      }
+
+      &:hover {
+        background: variables.$dark-gray-color;
+        color: lighten(variables.$gray-color, 20%);
+
+        path {
+          &[stroke] {
+            stroke: lighten(variables.$gray-color, 20%);
+          }
+          &[fill] {
+            fill: lighten(variables.$gray-color, 20%);
+          }
+        }
+      }
+    }
+    &contained {
+      background: variables.$white-color;
+      color: variables.$black-color;
+
+      &:hover {
+        background: darken(variables.$white-color, 15%);
+      }
+    }
+    &outlined {
+      background: variables.$white-color;
+      color: variables.$black-color;
+      border: 1px solid variables.$black-color;
+      border-radius: 3px;
+
+      &:hover {
+        background: darken(variables.$white-color, 10%);
+      }
+    }
+    &large {
+      padding: 14px 30px;
+      font-size: 1.05em;
+    }
+    &small {
+      padding: 6px 8px;
+      gap: 5px;
+      font-size: 0.8em;
+    }
+    &medium {
+      font-size: 0.9em;
+    }
+  }
+}

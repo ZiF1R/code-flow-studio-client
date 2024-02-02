@@ -1,0 +1,21 @@
+@use "variables";
+
+@mixin setStyles($bg, $text-color) {
+  background: $bg;
+  color: $text-color;
+}
+
+@mixin setTheme($theme: "dark") {
+  @if($theme == "dark") {
+    $bg: variables.$black-color;
+    $text-color: variables.$white-color;
+
+    @include setStyles($bg, $text-color);
+  } @else {
+    $bg: variables.$white-color;
+    $text-color: variables.$black-color;
+
+    @include setStyles($bg, $text-color);
+  }
+
+}

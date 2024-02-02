@@ -1,0 +1,18 @@
+@use "../../../assets/styles/_variables";
+
+.search-input__container {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  left: variables.$sidebar-width + variables.$sidebar-gap + 15;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
+  }
+
+  path, circle {
+    stroke: variables.$gray-color;
+  }
+}

@@ -1,0 +1,84 @@
+@use "../../../assets/styles/_variables";
+
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 50px;
+
+  .header__buttons {
+    display: flex;
+    gap: 5px;
+  }
+}
+
+.header__logo {
+  svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  input {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  path {
+    stroke: variables.$gray-color;
+    transition: variables.$transition-primary;
+  }
+
+  &:hover {
+    path {
+      stroke: variables.$white-color;
+    }
+  }
+}
+
+.header__menu {
+  .menu__list {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    list-style-type: none;
+    z-index: 1;
+
+    background: variables.$dark-gray-color;
+    width: fit-content;
+    padding: 5px 0;
+    border-radius: variables.$border-radius;
+  }
+
+  a.list__item {
+    width: 100%;
+    color: variables.$light-gray-color;
+    text-decoration: none;
+    cursor: default;
+  }
+
+  .list__item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 7px;
+
+    padding: 8px 15px;
+    color: variables.$light-gray-color;
+    font-weight: 500;
+    font-size: 0.85em;
+    transition: variables.$transition-primary;
+
+    &:hover {
+      background: lighten(variables.$dark-gray-color, 7%);
+    }
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    path {
+      stroke: variables.$light-gray-color;
+    }
+  }
+}
