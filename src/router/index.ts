@@ -15,7 +15,8 @@ const router = createRouter({
       name: 'dashboard',
       component: () => import('../modules/Dashboard/views/DashboardView.vue'),
       children: [
-        { path: '', name: 'recent', component: Recent }
+        { path: '', redirect: { name: 'recent' } },
+        { path: 'recent', name: 'recent', component: Recent },
       ],
     },
     {

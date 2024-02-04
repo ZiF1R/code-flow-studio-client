@@ -1,6 +1,4 @@
 // base colors
-$primary-color: #FF0060;
-$primary-bg-personal: #FEF1F6;
 $text-primary-color: #1e3141;
 $white-color: #ffffff;
 $light-gray-color: #d6d6d6;
@@ -8,7 +6,13 @@ $gray-color: #9b9b9b;
 $dark-gray-color: #2a2a2a;
 $black-color: #0f0e0f;
 $danger-color: red;
+
+$primary-color: #FF0060;
+$primary-bg-personal: #FEF1F6;
+$gray-d-personal: #4B4B4B;
+$gray-i-personal: #818181;
 $personal-gray-bg: #F9FAFB;
+$stroke-gray-personal: rgba(146, 142, 142, 0.14);
 
 $transition-primary: .3s ease;
 $sidebar-width: 250px;

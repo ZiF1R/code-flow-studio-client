@@ -34,10 +34,7 @@ import {formatRelative} from "date-fns";
 import { ru } from 'date-fns/locale'
 import {defineProps} from "vue";
 
-const props = defineProps<{
-  title: string,
-  cards: any[]
-}>();
+const props = defineProps(['title', 'cards']);
 
 function getLastUpdate(date) {
   return formatRelative(date, new Date(), { locale: ru })

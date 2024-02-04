@@ -18,7 +18,7 @@ export const getRecentProjects = async (page: number) => {
 }
 
 export const getProject = async (projectName: string) => {
-  const response = await axios.get("projects/" + projectName, {
+  const response = await axios.get("projects/code-names/" + projectName, {
     params: { userId: 1 }
   }).catch((e) => e);
 
@@ -39,4 +39,9 @@ export const fetchUserTemplates = async (): Promise<UserTemplates> => {
     params: { userId: 1 }
   });
   return response.data?.templates;
+}
+
+export const getProjectRoom = async (projectName: string) => {
+  const response = await axios.get("projects/rooms/" + projectName);
+  return response.data?.room;
 }

@@ -24,6 +24,10 @@ interface IButton {
   className?: string,
 }
 
+export type {
+  IButton,
+}
+
 export type Template = {
   id: number,
   name: string,
@@ -52,6 +56,31 @@ export type Templates = {
   userTemplates: UserTemplates
 }
 
-export type {
-  IButton,
+export interface User {
+  id: number;
+  accessToken: string;
+  githubAccessToken?: string;
+  refreshToken?: string;
+  email: string;
+  username?: string;
+  name?: string;
+  surname?: string;
+  picture?: string;
+}
+
+export interface Changes {
+  user: User
+  timeSent: string
+  projectCodeName: string
+  fileName: string,
+  content: typeof Blob
+}
+
+export interface ServerToClientEvents {
+  changes: (e: Changes) => void
+}
+
+export interface ClientToServerEvents {
+  changes: (e: Changes) => void
+  joinProject: (e: { user: User; projectName: string }) => void
 }

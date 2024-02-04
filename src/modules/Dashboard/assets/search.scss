@@ -3,8 +3,8 @@
 .search-input__container {
   display: flex;
   align-items: center;
-  position: fixed;
-  left: variables.$sidebar-width + variables.$sidebar-gap + 15;
+  //position: fixed;
+  //left: variables.$sidebar-width + variables.$sidebar-gap + 15;
 
   svg {
     width: 20px;

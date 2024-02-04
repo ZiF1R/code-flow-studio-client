@@ -67,6 +67,16 @@ input {
   }
 }
 
+.logo-icon {
+  width: 200px;
+  height: 30px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 button {
   display: flex;
   align-items: center;
@@ -113,7 +123,7 @@ button {
       }
 
       &:hover {
-        background: lighten(variables.$dark-gray-color, 2%);
+        background: darken(variables.$white-color, 5%);
         color: lighten(variables.$gray-color, 20%);
 
         path {
@@ -124,6 +134,11 @@ button {
     &text {
       color: variables.$gray-color;
       background: none;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
 
       svg path {
         &[stroke] {
@@ -137,25 +152,25 @@ button {
       }
 
       &:hover {
-        background: variables.$dark-gray-color;
+        background: darken(variables.$white-color, 3%);
         color: lighten(variables.$gray-color, 20%);
 
-        path {
-          &[stroke] {
-            stroke: lighten(variables.$gray-color, 20%);
-          }
-          &[fill] {
-            fill: lighten(variables.$gray-color, 20%);
-          }
-        }
+        //path {
+        //  &[stroke] {
+        //    stroke: lighten(variables.$gray-color, 20%);
+        //  }
+        //  &[fill] {
+        //    fill: lighten(variables.$gray-color, 20%);
+        //  }
+        //}
       }
     }
     &contained {
-      background: variables.$white-color;
+      background: variables.$personal-gray-bg;
       color: variables.$black-color;
 
       &:hover {
-        background: darken(variables.$white-color, 15%);
+        background: darken(variables.$personal-gray-bg, 5%);
       }
     }
     &outlined {
@@ -181,4 +196,9 @@ button {
       font-size: 0.9em;
     }
   }
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
 }

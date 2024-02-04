@@ -3,7 +3,10 @@
 .dashboard__header {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 50px;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid variables.$stroke-gray-personal;
 
   .header__buttons {
     display: flex;
@@ -79,6 +82,46 @@
 
     path {
       stroke: variables.$light-gray-color;
+    }
+  }
+}
+
+.project-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: darken(variables.$light-gray-color, 10%);
+  font-size: 0.9em;
+  padding-left: 50px;
+
+  a {
+    text-decoration: none;
+    color: darken(variables.$light-gray-color, 10%);
+    transition: variables.$transition-primary;
+
+    &:hover {
+      color: variables.$gray-color;
+    }
+  }
+
+  .project-name {
+    color: variables.$text-primary-color;
+  }
+
+  .project-visibility {
+    display: flex;
+    align-items: center;
+  }
+
+  svg {
+    width: 23px;
+    height: 23px;
+    stroke-width: 1px;
+
+    &.public {
+      path {
+        fill: #52ba54;
+      }
     }
   }
 }

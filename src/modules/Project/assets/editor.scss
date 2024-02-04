@@ -1,0 +1,90 @@
+@use "../../../assets/styles/_variables";
+
+.editor {
+  display: flex;
+  gap: 12px;
+}
+
+.editor-sidebar {
+  max-width: 25%;
+  min-width: 15%;
+  width: 100%;
+}
+
+.sidebar__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  background: variables.$personal-gray-bg;
+  padding: 12px;
+}
+
+.sidebar__tabs {
+
+}
+
+.sidebar__actions, .sidebar__tabs {
+  display: flex;
+  gap: 12px;
+
+  div {
+    display: flex;
+  }
+
+  & * {
+    cursor: pointer;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+
+    path {
+      fill: variables.$gray-d-personal;
+    }
+  }
+}
+
+.sidebar-tab {
+  cursor: pointer;
+
+  &.tab_active {
+    path {
+      fill: variables.$primary-color;
+    }
+  }
+
+  & * {
+    cursor: pointer;
+  }
+}
+
+.sidebar__tab-content {
+  padding: 12px;
+}
+
+.create-action {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  padding: 7px 15px;
+  cursor: pointer;
+  transition: variables.$transition-primary;
+
+  svg {
+    width: 20px;
+    height: 20px;
+
+    path {
+      fill: variables.$gray-d-personal;
+    }
+  }
+
+  & * {
+    cursor: pointer;
+  }
+
+  &:hover {
+    background: darken(variables.$personal-gray-bg, 1%);
+  }
+}

@@ -1,6 +1,11 @@
 <template>
   <div class="recent__container">
-    <h2>Недавние</h2>
+    <div class="page-header">
+      <h2>
+        Недавние
+      </h2>
+      <Search />
+    </div>
 
     <div class="recent__actions">
       <ButtonComponent @click="() => createDialog = true"
@@ -38,6 +43,7 @@ import {onBeforeMount, reactive, ref} from "vue";
 import CreateProjectModal
   from "@/modules/Dashboard/components/CreateProjectModal.vue";
 import {getRecentProjects} from "@/utils/services/projects.service";
+import Search from "../Header/Search.vue";
 
 const createDialog = ref<Boolean>(false);
 const page = ref<number>(1);

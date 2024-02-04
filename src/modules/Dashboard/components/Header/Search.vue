@@ -1,20 +1,12 @@
 <template>
   <label class="search-input__container">
     <SearchIcon />
-    <input type="text" placeholder="Search"/>
+    <input type="text" placeholder="Поиск"/>
   </label>
 </template>
 
-<script>
+<script setup>
 import SearchIcon from "./Icons/SearchIcon.vue";
-
-export default {
-  name: "Search",
-
-  components: {
-    SearchIcon
-  }
-}
 </script>
 
 <style>

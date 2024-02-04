@@ -20,7 +20,7 @@ const vuetify = createVuetify({
       myCustomTheme: {
         dark: false,
         colors: {
-          primary: '#00ff00',
+          primary: '#c2dfc2',
         },
       },
     },

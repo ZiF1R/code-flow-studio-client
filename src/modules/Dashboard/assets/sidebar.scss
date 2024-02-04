@@ -42,16 +42,30 @@ aside {
     font-size: 0.95em;
     transition: variables.$transition-primary;
 
-    &:hover, &.item_active {
-      color: variables.$white-color;
+    &:hover {
+      color: variables.$black-color;
 
       path {
-        stroke: variables.$white-color;
+        stroke: variables.$black-color;
+      }
+    }
+
+    &.item_active {
+      color: variables.$primary-color;
+      background: variables.$primary-bg-personal;
+
+      &:hover {
+        background: darken(variables.$primary-bg-personal, 3%);
+      }
+
+      path {
+        stroke-width: 2px;
+        stroke: variables.$primary-color;
       }
     }
 
     &:hover {
-      background: variables.$dark-gray-color;
+      background: darken(variables.$white-color, 5%);
     }
 
     svg {
