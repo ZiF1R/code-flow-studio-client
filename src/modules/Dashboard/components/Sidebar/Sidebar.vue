@@ -28,7 +28,7 @@ import IconAsyncComponent from "@/components/IconAsyncComponent.vue";
 const menu = reactive([
   {
     icon: "RecentIcon",
-    name: "Недавнее",
+    name: "Недавние",
     link: "/dashboard/recent",
     divider: false,
   },

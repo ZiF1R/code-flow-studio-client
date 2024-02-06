@@ -56,11 +56,13 @@ export type Templates = {
   userTemplates: UserTemplates
 }
 
-export interface User {
+export type SignInData = {
+  token: string
+  user: User
+}
+
+export type User = {
   id: number;
-  accessToken: string;
-  githubAccessToken?: string;
-  refreshToken?: string;
   email: string;
   username?: string;
   name?: string;

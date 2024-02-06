@@ -54,7 +54,7 @@ import Menu from "./Menu.vue";
 import { Size, Variant } from "@/utils/types/global.types";
 import PreferencesIcon
   from "@/modules/Dashboard/components/Header/Icons/PreferencesIcon.vue";
-import LogoIcon from "@/components/Icons/LogoIcon.vue";
+import LogoIcon from "@/components/Icons/FullLogoIcon.vue";
 import {computed, defineProps} from "vue";
 import {useRoute} from "vue-router";
 import PublicIcon
@@ -64,8 +64,8 @@ import TasksIcon from "@/modules/Dashboard/components/Header/Icons/TasksIcon.vue
 import ShareIcon from "@/modules/Dashboard/components/Header/Icons/ShareIcon.vue";
 
 const props = defineProps<{
-  projectName: string,
-  projectPublic: boolean
+  projectName?: string,
+  projectPublic?: boolean
 }>();
 
 const route = useRoute();
