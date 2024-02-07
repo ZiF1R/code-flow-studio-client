@@ -27,34 +27,32 @@
           </v-tooltip>
           <v-menu activator="parent">
             <v-list>
-              <div class="create-action">
-                <FileIcon />
-                <span>Файл</span>
+              <div v-for="file in fileOptions" :key="file.id"
+                   class="create-action" @click="() =>
+                   handleNewFileClick(file.type, file.extension)">
+                <keep-alive>
+                  <component :is="file.icon" />
+                </keep-alive>
+                <span>{{file.name}}</span>
 
-                <v-menu open-on-hover location="end" activator="parent">
-                  <v-list>
-                    <div class="create-action">
-                      <FileIcon />
-                      <span>HTML</span>
-                    </div>
-                    <div class="create-action">
-                      <FileIcon />
-                      <span>CSS</span>
-                    </div>
-                    <div class="create-action">
-                      <FileIcon />
-                      <span>JavaScript</span>
-                    </div>
-                    <div class="create-action">
-                      <FileIcon />
-                      <span>TypeScript</span>
-                    </div>
-                  </v-list>
-                </v-menu>
-              </div>
-              <div class="create-action">
-                <FolderIcon />
-                <span>Папка</span>
+                <template v-if="file.options.length">
+                  <v-menu open-on-hover
+                          location="end"
+                          activator="parent">
+                    <v-list>
+                      <div v-for="option in file.options"        :key="option.id"
+                           class="create-action"
+                           @click.stop="() =>
+                   handleNewFileClick(file.type, option.extension)"
+                      >
+                        <keep-alive>
+                          <component :is="option.icon" />
+                        </keep-alive>
+                        <span>{{option.name}}</span>
+                      </div>
+                    </v-list>
+                  </v-menu>
+                </template>
               </div>
             </v-list>
           </v-menu>
@@ -71,6 +69,27 @@
       </div>
     </header>
 
+    <v-dialog
+      :model-value="showNewFileForm"
+      @update:modelValue="() => showNewFileForm = !showNewFileForm"
+      width="auto"
+    >
+      <v-card width="400">
+        <v-card-title>
+          Создать {{newFile.type === 'file' ? 'файл' : 'папку'}}
+        </v-card-title>
+        <v-card-text>
+          <v-text-field label="Название"></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <ButtonComponent :variant="Variant.Contained">
+            Создать
+          </ButtonComponent>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div class="sidebar__tab-content">
       <keep-alive>
         <component :is="activeTab?.component" />
@@ -80,6 +99,7 @@
 </template>
 
 <script setup lang="ts">
+import {Size, Variant} from "@/utils/types/global.types";
 import {computed, reactive, ref, shallowRef} from "vue";
 import StructureTab
   from "@/modules/Project/components/Sidebar/Tabs/StructureTab.vue";
@@ -92,6 +112,8 @@ import FileIcon from "@/modules/Project/components/Icons/FileIcon.vue";
 import StructureFileIcon
   from "@/modules/Project/components/Icons/StructureFileIcon.vue";
 import FolderIcon from "@/modules/Project/components/Icons/FolderIcon.vue";
+import {ProjectFile} from "@/utils/types/global.types";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 
 type Tab = {
   id: number,
@@ -130,8 +152,61 @@ const menuText = computed<string>(() => {
     return 'Показать боковую панель';
   }
 });
+
+const fileOptions = reactive([
+  {
+    id: 1,
+    icon: shallowRef(FileIcon),
+    name: "Файл",
+    type: "file",
+    extension: null,
+    options: [
+      {
+        id: 1,
+        name: "HTML",
+        icon: shallowRef(FileIcon),
+        extension: "html",
+      },
+      {
+        id: 2,
+        name: "CSS",
+        icon: shallowRef(FileIcon),
+        extension: "css",
+      },
+      {
+        id: 3,
+        name: "JavaScript",
+        icon: shallowRef(FileIcon),
+        extension: "js",
+      },
+      {
+        id: 4,
+        icon: shallowRef(FileIcon),
+        name: "TypeScript",
+        extension: "ts",
+      },
+    ],
+  },
+  {
+    id: 2,
+    icon: shallowRef(FolderIcon),
+    name: "Папка",
+    type: "folder",
+    extension: null,
+    options: [],
+  }
+]);
+const newFile = reactive<ProjectFile>({
+  name: "",
+  extension: null,
+  type: null,
+});
+const showNewFileForm = ref<boolean>(false);
+
+function handleNewFileClick(type, extension) {
+  console.log(showNewFileForm.value)
+  newFile.type = type;
+  newFile.extension = extension;
+  showNewFileForm.value = true;
+}
 </script>
-
-<style lang="scss">
-
-</style>

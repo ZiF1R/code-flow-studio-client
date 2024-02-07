@@ -21,6 +21,18 @@
     </div>
 
     <div class="header__buttons">
+      <div v-if="roomUsers?.length" class="header__users">
+        <div v-for="user in roomUsers" :key="user.id" class="user-avatar">
+          <img :src="user?.picture" referrerpolicy="no-referrer">
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+          >
+            {{user.email}}
+          </v-tooltip>
+        </div>
+      </div>
+
       <template v-if="isProjectPage">
         <ButtonComponent :variant="Variant.Contained" :size="Size.Small">
           <ShareIcon />
@@ -48,10 +60,8 @@
 
 <script setup lang="ts">
 import ButtonComponent from "@/components/ButtonComponent.vue";
-import PlusIcon from "./Icons/PlusIcon.vue";
 import NotificationsIcon from "./Icons/NotificationsIcon.vue";
-import Menu from "./Menu.vue";
-import { Size, Variant } from "@/utils/types/global.types";
+import {Size, User, Variant} from "@/utils/types/global.types";
 import PreferencesIcon
   from "@/modules/Dashboard/components/Header/Icons/PreferencesIcon.vue";
 import LogoIcon from "@/components/Icons/FullLogoIcon.vue";
@@ -66,6 +76,7 @@ import ShareIcon from "@/modules/Dashboard/components/Header/Icons/ShareIcon.vue
 const props = defineProps<{
   projectName?: string,
   projectPublic?: boolean
+  roomUsers?: User[]
 }>();
 
 const route = useRoute();

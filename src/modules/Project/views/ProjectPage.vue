@@ -1,13 +1,40 @@
 <template>
   <div class="container">
-    <Header :projectName :projectPublic="project?.public" />
-    <div class="editor">
-      <Sidebar />
-    </div>
+    <template v-if="hasAccess">
+      <Header :projectName :projectPublic="project?.public"
+              :roomUsers="projectRoom?.users" />
+      <div class="editor">
+        <Sidebar />
+      </div>
+    </template>
+    <template v-else>
+      <v-dialog
+        :model-value="!hasAccess"
+        width="auto"
+        persistent
+      >
+        <v-card
+          width="400"
+          title="Запрет в доступе"
+          text="У вас нет доступа для просмотра данного проекта, попробуйте попросить создателя дать вам доступ для просмотра"
+        >
+          <v-card-actions>
+            <v-spacer />
+            <router-link :to="{ name: 'recent' }" style="text-decoration:
+            none; ">
+              <ButtonComponent :variant="Variant.Primary">
+                Вернуться
+              </ButtonComponent>
+            </router-link>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import {Size, Variant} from "@/utils/types/global.types";
 import {useRoute} from "vue-router";
 import {
   computed,
@@ -20,12 +47,14 @@ import {
 import {
   ClientToServerEvents,
   Project,
-  ServerToClientEvents, User
+  ServerToClientEvents
 } from "@/utils/types/global.types";
 import {getProject, getProjectRoom} from "@/utils/services/projects.service";
 import Header from "@/modules/Dashboard/components/Header/Header.vue";
 import Sidebar from "@/modules/Project/components/Sidebar/Sidebar.vue";
 import {io, Socket} from "socket.io-client";
+import {useAuthStore} from "@/stores/auth.store";
+import ButtonComponent from "@/components/ButtonComponent.vue";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
   io("http://localhost:3000", {
@@ -36,6 +65,7 @@ const socketConnected = ref<boolean>(socket.connected);
 const location = useRoute();
 const project = ref<Project | null>(null)
 const loading = computed<boolean>(() => project.value === null);
+const hasAccess = ref<boolean>(true);
 const projectName = computed<string>(() => {
   if (project.value !== null) {
     return project.value.name || project.value.codeName
@@ -44,23 +74,24 @@ const projectName = computed<string>(() => {
   }
 });
 const projectRoom = ref(null);
+const auth = useAuthStore();
 
 watchEffect(async () => {
   if (socketConnected.value) {
-    projectRoom.value = await getProjectRoom(project.value?.codeName);
+    projectRoom.value = await getProjectRoom(location.params.projectName.toString());
   }
 })
 
 onBeforeMount(async () => {
-  project.value = await getProject(location.params.projectName.toString());
+  project.value = await getProject(location.params.projectName.toString(),
+    auth.currentUser?.id);
 
-  const user: User = {
-    id: 1,
-    accessToken: "123",
-    email: "email@gmail.com",
+  if (project.value === null) {
+    hasAccess.value = false;
   }
+
   const joinEvent = {
-    user,
+    user: auth.currentUser,
     projectName: project.value?.codeName || ''
   }
 

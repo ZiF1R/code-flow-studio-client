@@ -44,17 +44,19 @@ import CreateProjectModal
   from "@/modules/Dashboard/components/CreateProjectModal.vue";
 import {getRecentProjects} from "@/utils/services/projects.service";
 import Search from "../Header/Search.vue";
+import {useAuthStore} from "@/stores/auth.store";
 
 const createDialog = ref<Boolean>(false);
 const page = ref<number>(1);
-const cards = ref([]);
+const cards = ref(null);
+const auth = useAuthStore();
 
 onBeforeMount(async () => {
-  cards.value = await getRecentProjects(page.value);
+  cards.value = await getRecentProjects(page.value, auth.currentUser?.id);
 });
 
 async function updateRecentProjects() {
-  cards.value = await getRecentProjects(page.value);
+  cards.value = await getRecentProjects(page.value, auth.currentUser?.id);
 }
 </script>
 

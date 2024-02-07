@@ -17,17 +17,19 @@ import {
   fetchDefaultTemplates, fetchUserTemplates,
 } from "../../../utils/services/projects.service";
 import {useCheckMobile} from "@/utils/helpers/useCheckMobile";
+import {useAuthStore} from "@/stores/auth.store";
 
 let defaultTemplates = ref<DefaultTemplates | null>(null);
 let userTemplates = ref<UserTemplates | null>(null);
-const { isMobile } = useCheckMobile()
+const { isMobile } = useCheckMobile();
+const auth = useAuthStore();
 
 provide("templates", {defaultTemplates, userTemplates})
 provide("isMobile", isMobile)
 
 onMounted(async () => {
   defaultTemplates.value = await fetchDefaultTemplates();
-  userTemplates.value = await fetchUserTemplates();
+  userTemplates.value = await fetchUserTemplates(auth.currentUser?.id);
 })
 </script>
 

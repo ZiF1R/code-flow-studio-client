@@ -9,18 +9,17 @@ export const createNewProject = async (data) => {
   return response.data?.project;
 }
 
-export const getRecentProjects = async (page: number) => {
-  // TODO: change userId
+export const getRecentProjects = async (page: number, userId: number) => {
   const response = await axios.get("projects/recent", {
-    params: { userId: 1, page }
+    params: { userId, page }
   });
   return response.data?.projects;
 }
 
-export const getProject = async (projectName: string) => {
+export const getProject = async (projectName: string, userId: number) => {
   const response = await axios.get("projects/code-names/" + projectName, {
-    params: { userId: 1 }
-  }).catch((e) => e);
+    params: { userId }
+  });
 
   if (response.data) {
     return response.data?.project;
@@ -34,9 +33,9 @@ export const fetchDefaultTemplates = async (): Promise<DefaultTemplates> => {
   return response.data?.templates;
 }
 
-export const fetchUserTemplates = async (): Promise<UserTemplates> => {
+export const fetchUserTemplates = async (userId: number): Promise<UserTemplates> => {
   const response = await axios.get("templates/user", {
-    params: { userId: 1 }
+    params: { userId }
   });
   return response.data?.templates;
 }

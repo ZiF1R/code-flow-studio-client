@@ -82,6 +82,14 @@ export interface ServerToClientEvents {
   changes: (e: Changes) => void
 }
 
+export type FileType = "file" | "folder";
+
+export type ProjectFile = {
+  name: string
+  extension: string | null,
+  type: FileType | null,
+}
+
 export interface ClientToServerEvents {
   changes: (e: Changes) => void
   joinProject: (e: { user: User; projectName: string }) => void

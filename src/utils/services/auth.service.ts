@@ -16,3 +16,16 @@ export const loadCurrentUser = async (accessToken: string) => {
   }).catch(() => null);
   return response?.data?.user || null;
 }
+
+export const refreshCurrentToken = async (token: string, id: number, email: string): Promise<string> => {
+  const response = await axios.get(import.meta.env.VITE_BASE_URL_HTTP + "/auth/user/refresh-token",{
+    headers: {
+      Authorization: 'Bearer ' + token
+    },
+    params: {
+      id,
+      email,
+    }
+  });
+  return response.data?.token;
+}
