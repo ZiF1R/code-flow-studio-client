@@ -22,7 +22,10 @@ export const getProject = async (projectName: string, userId: number) => {
   });
 
   if (response.data) {
-    return response.data?.project;
+    return {
+      project: response.data?.project,
+      filesTree: response.data?.filesTree
+    };
   } else {
     return null;
   }
@@ -43,4 +46,23 @@ export const fetchUserTemplates = async (userId: number): Promise<UserTemplates>
 export const getProjectRoom = async (projectName: string) => {
   const response = await axios.get("projects/rooms/" + projectName);
   return response.data?.room;
+}
+
+export const openFile = async (projectName: string, path: string) => {
+  const response = await axios.get("projects/files", {
+    params: {
+      projectName,
+      path,
+    }
+  });
+
+  return response.data?.content;
+}
+
+export const updateVisitDate = async (projectId: number, userId: number) => {
+  await axios.post("projects/visited", {
+    projectId,
+    userId,
+    timeStamp: Date.now(),
+  });
 }

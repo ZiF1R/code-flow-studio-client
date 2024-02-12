@@ -1,6 +1,6 @@
 @use "../../../assets/styles/_variables";
 
-.editor {
+.project-page__content {
   display: flex;
   gap: 12px;
 }
@@ -17,10 +17,6 @@
   gap: 15px;
   background: variables.$personal-gray-bg;
   padding: 12px;
-}
-
-.sidebar__tabs {
-
 }
 
 .sidebar__actions, .sidebar__tabs {
@@ -60,7 +56,11 @@
 }
 
 .sidebar__tab-content {
-  padding: 12px;
+  height: 80vh;
+
+  & > * {
+    padding: 12px;
+  }
 }
 
 .create-action {
@@ -86,5 +86,107 @@
 
   &:hover {
     background: darken(variables.$personal-gray-bg, 1%);
+  }
+}
+
+.files-tree {
+  max-height: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.tree-node {
+  min-height: unset!important;
+  padding-top: 7px!important;
+  padding-bottom: 7px!important;
+
+  & * {
+    cursor: pointer;
+  }
+
+  .v-list-item__prepend {
+    width: 40px!important;
+  }
+
+  &_placeholder {
+    background: darken(variables.$personal-gray-bg, 0%);
+    color: variables.$gray-color;
+  }
+
+  &:active {
+    background: darken(variables.$personal-gray-bg, 1%);
+  }
+}
+
+.tree-folder {
+  cursor: pointer;
+
+  &_active {
+    background: variables.$primary-bg-personal;
+  }
+
+  & * {
+    cursor: pointer;
+  }
+}
+
+.editor-container {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.editor__tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  padding: 12px 24px;
+  overflow-x: scroll;
+  min-height: 50px;
+
+  background: variables.$personal-gray-bg;
+
+  &::-webkit-scrollbar {
+    height: 0;
+  }
+}
+
+.editor__tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 0;
+  font-size: 0.85em;
+
+  cursor: pointer;
+
+  & * {
+    cursor: pointer;
+  }
+
+  &.tab_active {
+    font-weight: 600;
+    color: variables.$primary-color;
+    border-bottom: 2px solid variables.$primary-color;
+
+    path {
+      fill: variables.$primary-color;
+    }
+  }
+
+  path {
+    fill: variables.$gray-d-personal;
+  }
+
+  span {
+    white-space: nowrap;
+    margin-right: 5px;
   }
 }

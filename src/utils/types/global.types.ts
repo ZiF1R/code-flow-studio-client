@@ -61,6 +61,20 @@ export type SignInData = {
   user: User
 }
 
+export type FileType = "file" | "folder";
+
+export type ProjectFile = {
+  name: string
+  extension: string | null,
+  type: FileType | null,
+  path: string,
+}
+
+export type NewFile = {
+  file: ProjectFile
+  projectName: string
+}
+
 export type User = {
   id: number;
   email: string;
@@ -80,17 +94,45 @@ export interface Changes {
 
 export interface ServerToClientEvents {
   changes: (e: Changes) => void
-}
-
-export type FileType = "file" | "folder";
-
-export type ProjectFile = {
-  name: string
-  extension: string | null,
-  type: FileType | null,
+  newFile: (e: NewFile) => void
+  userJoin: (user: User) => void
+  userLeave: (user: User) => void
 }
 
 export interface ClientToServerEvents {
   changes: (e: Changes) => void
+  newFile: (e: NewFile) => void
   joinProject: (e: { user: User; projectName: string }) => void
 }
+
+export type ProjectRoomUser = {
+  id: number;
+  email: string;
+  username?: string;
+  name?: string;
+  surname?: string;
+  picture?: string;
+  socket: string
+};
+
+export interface ProjectRoom {
+  project: Project
+  users: ProjectRoomUser[]
+}
+
+export interface FileNode {
+  id: number;
+  type: FileType;
+  content: string | FileMap;
+  placeholder?: boolean
+}
+
+export interface FileMap {
+  [filename: string]: FileNode;
+}
+
+// export interface FileTree {
+//   id: number;
+//   type: FileType;
+//   content: string | FileMap;
+// }

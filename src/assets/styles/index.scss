@@ -202,3 +202,12 @@ button {
   display: flex;
   justify-content: space-between;
 }
+
+.editable-block {
+  border-radius: 2px;
+  padding: 2px;
+
+  &:focus {
+    outline: 2px solid lighten(variables.$dark-gray-color, 20%);
+  }
+}

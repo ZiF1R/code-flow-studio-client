@@ -8,7 +8,9 @@
     <div class="project-title" v-show="isProjectPage">
       <router-link :to="{ name: 'recent' }">Проекты</router-link>
       <span>/</span>
-      <span class="project-name">{{props.projectName}}</span>
+      <input :disabled="owner === false"
+             class="project-name editable-block"
+             v-model.trim="editableProjectName" />
       <div class="project-visibility">
         <PublicIcon :class="{public: projectPublic}" />
         <v-tooltip
@@ -30,6 +32,7 @@
           >
             {{user.email}}
           </v-tooltip>
+<!--          {{owner ? '(владелец)' : ''}}-->
         </div>
       </div>
 
@@ -65,20 +68,30 @@ import {Size, User, Variant} from "@/utils/types/global.types";
 import PreferencesIcon
   from "@/modules/Dashboard/components/Header/Icons/PreferencesIcon.vue";
 import LogoIcon from "@/components/Icons/FullLogoIcon.vue";
-import {computed, defineProps} from "vue";
+import {computed, defineProps, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import PublicIcon
   from "@/modules/Dashboard/components/Header/Icons/PublicIcon.vue";
 import ChatIcon from "@/modules/Dashboard/components/Header/Icons/ChatIcon.vue";
 import TasksIcon from "@/modules/Dashboard/components/Header/Icons/TasksIcon.vue";
 import ShareIcon from "@/modules/Dashboard/components/Header/Icons/ShareIcon.vue";
+import {useAuthStore} from "@/stores/auth.store";
 
 const props = defineProps<{
   projectName?: string,
   projectPublic?: boolean
   roomUsers?: User[]
+  owner: boolean
 }>();
 
+const editableProjectName = ref<string>('');
+
+watch(
+  () => props.projectName,
+  (val) => editableProjectName.value = val
+);
+
+const auth = useAuthStore();
 const route = useRoute();
 const isProjectPage = computed<boolean>(() => route.name === 'project');
 const tooltipText = computed<string>(() => {

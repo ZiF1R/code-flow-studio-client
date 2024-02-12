@@ -69,51 +69,45 @@
       </div>
     </header>
 
-    <v-dialog
-      :model-value="showNewFileForm"
-      @update:modelValue="() => showNewFileForm = !showNewFileForm"
-      width="auto"
-    >
-      <v-card width="400">
-        <v-card-title>
-          Создать {{newFile.type === 'file' ? 'файл' : 'папку'}}
-        </v-card-title>
-        <v-card-text>
-          <v-text-field label="Название"></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <ButtonComponent :variant="Variant.Contained">
-            Создать
-          </ButtonComponent>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     <div class="sidebar__tab-content">
       <keep-alive>
-        <component :is="activeTab?.component" />
+        <component :socket :eventBus :is="activeTab?.component"
+                   @openFile="emit('openFile', $event)"
+                   @toggleShowForm="showNewFileForm = $event"
+                   @createFile="emit('createFile', $event)"
+        />
       </keep-alive>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {Size, Variant} from "@/utils/types/global.types";
-import {computed, reactive, ref, shallowRef} from "vue";
-import StructureTab
-  from "@/modules/Project/components/Sidebar/Tabs/StructureTab.vue";
+import {
+  computed,
+  defineEmits,
+  defineProps, provide,
+  reactive,
+  ref,
+  shallowRef,
+  watch
+} from "vue";
+import FilesTree
+  from "@/modules/Project/components/Sidebar/Tabs/FilesTree.vue";
 import SearchTab from "@/modules/Project/components/Sidebar/Tabs/SearchTab.vue";
 import GitTab from "@/modules/Project/components/Sidebar/Tabs/GitTab.vue";
 import IconAsyncComponent from "@/components/IconAsyncComponent.vue";
 import PlusIcon from "@/modules/Dashboard/components/Header/Icons/PlusIcon.vue";
 import MenuIcon from "@/modules/Project/components/Icons/MenuIcon.vue";
 import FileIcon from "@/modules/Project/components/Icons/FileIcon.vue";
-import StructureFileIcon
-  from "@/modules/Project/components/Icons/StructureFileIcon.vue";
 import FolderIcon from "@/modules/Project/components/Icons/FolderIcon.vue";
-import {ProjectFile} from "@/utils/types/global.types";
-import ButtonComponent from "@/components/ButtonComponent.vue";
+import {Socket} from "socket.io-client";
+import {TinyEmitter} from "tiny-emitter";
+
+const props = defineProps<{
+  socket: Socket,
+  eventBus: TinyEmitter
+}>();
+const emit = defineEmits(["createFile", "openFile"]);
 
 type Tab = {
   id: number,
@@ -127,7 +121,7 @@ const tabs = reactive<Tab[]>([
   {
     id: 1,
     name: 'Структура',
-    component: shallowRef(StructureTab),
+    component: shallowRef(FilesTree),
     icon: 'FileIcon',
   },
   {
@@ -196,17 +190,11 @@ const fileOptions = reactive([
     options: [],
   }
 ]);
-const newFile = reactive<ProjectFile>({
-  name: "",
-  extension: null,
-  type: null,
-});
 const showNewFileForm = ref<boolean>(false);
+provide("showNewFileForm", showNewFileForm);
 
 function handleNewFileClick(type, extension) {
-  console.log(showNewFileForm.value)
-  newFile.type = type;
-  newFile.extension = extension;
+  props.eventBus.emit("newFileClick", {type, extension});
   showNewFileForm.value = true;
 }
 </script>
