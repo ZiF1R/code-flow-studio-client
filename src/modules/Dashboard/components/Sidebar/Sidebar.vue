@@ -9,7 +9,7 @@
         </div>
         <router-link v-else
                      :to="item.link"
-                     @click="() => this.activeLink = i"
+                     @click="() => activeLink = i"
                      class="list__item"
                      :class="{item_active: activeLink === i}"
         >
@@ -85,7 +85,7 @@ const menu = reactive([
 const menuIconsBaseUrl =
     ref<string>("../modules/Dashboard/components/Sidebar/Icons/"),
   defaultPageLink = ref<string>("/dashboard/recent"),
-  activeLink = ref(menu.findIndex(item => item.link === defaultPageLink.value));
+  activeLink = ref(menu.findIndex(item => item.link === window.location.pathname));
 </script>
 
 <style lang="scss">

@@ -1,6 +1,6 @@
 <template>
   <div class="cards-block__container">
-    <h3>{{title}}</h3>
+    <h3 v-if="title">{{title}}</h3>
 
     <div class="cards-block__list">
       <template v-if="props.cards === null">

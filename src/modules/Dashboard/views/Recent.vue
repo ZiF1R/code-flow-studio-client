@@ -34,16 +34,16 @@
 
 <script setup lang="ts">
 import ButtonComponent from "@/components/ButtonComponent.vue";
-import PlusIcon from "../Header/Icons/PlusIcon.vue";
-import ImportIcon from "./Icons/ImportIcon.vue";
-import ProjectsIcon from "./Icons/ProjectsIcon.vue";
-import CardsBlock from "./CardsBlock.vue";
+import PlusIcon from "../components/Header/Icons/PlusIcon.vue";
+import ImportIcon from "../components/Recent/Icons/ImportIcon.vue";
+import ProjectsIcon from "../components/Recent/Icons/ProjectsIcon.vue";
+import CardsBlock from "../components/Recent/CardsBlock.vue";
 import {Size, Variant} from "@/utils/types/global.types";
 import {onBeforeMount, reactive, ref} from "vue";
 import CreateProjectModal
   from "@/modules/Dashboard/components/CreateProjectModal.vue";
 import {getRecentProjects} from "@/utils/services/projects.service";
-import Search from "../Header/Search.vue";
+import Search from "../components/Header/Search.vue";
 import {useAuthStore} from "@/stores/auth.store";
 
 const createDialog = ref<Boolean>(false);
@@ -61,5 +61,5 @@ async function updateRecentProjects() {
 </script>
 
 <style>
-@import "../../assets/recent.scss";
+@import "../assets/recent.scss";
 </style>

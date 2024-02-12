@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import SigninView from '../modules/Auth/views/SigninView.vue'
-import Recent from '../modules/Dashboard/components/Recent/Recent.vue'
+import Recent from '../modules/Dashboard/views/Recent.vue'
+import Dashboard from '../modules/Dashboard/views/DashboardView.vue'
 import Cookies from 'js-cookie';
 
 const router = createRouter({
@@ -14,10 +15,12 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('../modules/Dashboard/views/DashboardView.vue'),
+      component: Dashboard,
       children: [
         { path: '', redirect: { name: 'recent' } },
         { path: 'recent', name: 'recent', component: Recent },
+        { path: 'projects', name: 'projects', component: () => import('../modules/Dashboard/views/AllProjects.vue') },
+        { path: 'templates', name: 'templates', component: () => import('../modules/Dashboard/views/Templates.vue') },
       ],
     },
     {

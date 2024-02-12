@@ -9,6 +9,20 @@ export const createNewProject = async (data) => {
   return response.data?.project;
 }
 
+export const getAllProjects = async (userId: number) => {
+  const response = await axios.get("projects", {
+    params: { userId }
+  });
+  return response.data?.projects;
+}
+
+export const getTemplates = async (userId: number) => {
+  const response = await axios.get("projects/templates", {
+    params: { userId }
+  });
+  return response.data?.templates;
+}
+
 export const getRecentProjects = async (page: number, userId: number) => {
   const response = await axios.get("projects/recent", {
     params: { userId, page }
