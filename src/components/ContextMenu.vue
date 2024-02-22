@@ -1,5 +1,5 @@
 <template>
-  <div class="overlay" @click="emit('close')"></div>
+  <div class="overlay" @click="emit('close')" @contextmenu.prevent=""></div>
   <div
     class="fixed h-1/3 z-50 context-menu"
     :style="{ top: y + 'px', left: x + 'px' }"

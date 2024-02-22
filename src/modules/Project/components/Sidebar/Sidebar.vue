@@ -72,6 +72,7 @@
     <div class="sidebar__tab-content">
       <keep-alive>
         <component :socket :eventBus :is="activeTab?.component"
+                   @fileAction="emit('fileAction', $event)"
                    @openFile="emit('openFile', $event)"
                    @toggleShowForm="showNewFileForm = $event"
                    @createFile="emit('createFile', $event)"
@@ -107,7 +108,7 @@ const props = defineProps<{
   socket: Socket,
   eventBus: TinyEmitter
 }>();
-const emit = defineEmits(["createFile", "openFile"]);
+const emit = defineEmits(["createFile", "openFile", "fileAction"]);
 
 type Tab = {
   id: number,

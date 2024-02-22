@@ -7,6 +7,7 @@
       <main id="projectContent" class="project-page__content">
         <Sidebar :socket
                  :eventBus
+                 @fileAction="handleFileAction"
                  @openFile="handleOpenFile"
                  @createFile="handleCreateFile" />
         <EditorContainer :eventBus />
@@ -116,6 +117,14 @@ async function handleOpenFile(path: string) {
   })
 }
 
+function handleFileAction(data) {
+  socket.emit("changes", {
+    ...data,
+    projectCodeName: project.value?.codeName,
+  });
+  eventBus.emit("changes", data);
+}
+
 onBeforeMount(async () => {
   const data = await getProject(location.params.projectName.toString(),
     auth.currentUser?.id);
@@ -146,7 +155,7 @@ onBeforeMount(async () => {
   });
 
   socket.on('changes', (e) => {
-    console.log('changes', e)
+    eventBus.emit("changes", e);
   });
 
   socket.on('disconnect', () => {

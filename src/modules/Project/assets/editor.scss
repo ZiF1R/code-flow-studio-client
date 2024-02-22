@@ -96,16 +96,24 @@
 }
 
 .tree-node {
+  display: flex;
+  gap: 6px;
+  align-items: center;
   min-height: unset!important;
   padding-top: 7px!important;
   padding-bottom: 7px!important;
 
-  & * {
-    cursor: pointer;
+  svg {
+    width: 17px;
+    height: 17px;
   }
 
-  .v-list-item__prepend {
-    width: 40px!important;
+  path {
+    fill: variables.$gray-color;
+  }
+
+  & * {
+    cursor: pointer;
   }
 
   &_placeholder {
@@ -189,4 +197,9 @@
     white-space: nowrap;
     margin-right: 5px;
   }
+}
+
+.active-tab__content {
+  position: relative;
+  height: 100%;
 }

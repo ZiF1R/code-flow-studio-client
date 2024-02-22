@@ -11,11 +11,11 @@
 <script setup lang="ts">
 import Header from "../components/Header/Header.vue";
 import Sidebar from "../components/Sidebar/Sidebar.vue";
-import {onMounted, provide, ref} from "vue";
+import {onMounted, onUnmounted, provide, ref} from "vue";
 import {DefaultTemplates, UserTemplates} from "@/utils/types/global.types";
 import {
   fetchDefaultTemplates, fetchUserTemplates,
-} from "../../../utils/services/projects.service";
+} from "@/utils/services/projects.service";
 import {useCheckMobile} from "@/utils/helpers/useCheckMobile";
 import {useAuthStore} from "@/stores/auth.store";
 
@@ -30,7 +30,7 @@ provide("isMobile", isMobile)
 onMounted(async () => {
   defaultTemplates.value = await fetchDefaultTemplates();
   userTemplates.value = await fetchUserTemplates(auth.currentUser?.id);
-})
+});
 </script>
 
 <style lang="scss">

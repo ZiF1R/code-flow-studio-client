@@ -28,7 +28,11 @@
     <v-list v-if="Object.keys(filesTree).length > 0">
       <template v-for="child of Object.keys(filesTree)" :key="filesTree[child].id">
         <FileTreeNode :title="child"
-                      :node="filesTree[child]" @selectSubtree="changeSubtree"
+                      :node="filesTree[child]"
+                      :eventBus
+                      :level="0"
+                      @action="emit('fileAction', $event)"
+                      @selectSubtree="changeSubtree"
                       @openFile="emit('openFile', $event)"
                       @showContextMenu="showContextMenu"
         />
@@ -58,7 +62,8 @@ import {
 import FileTreeNode
   from "@/modules/Project/components/Sidebar/Structure/FileTreeNode.vue";
 import {
-  FileMap,
+  Changes,
+  FileMap, FileNode,
   FileType,
   ProjectFile,
   Variant
@@ -74,8 +79,8 @@ const props = defineProps<{
   socket: Socket
   eventBus: TinyEmitter
 }>();
-const emit = defineEmits(["selectSubtree", "openFile", "toggleShowForm",
-  "createFile", 'renameFile', 'deleteFile']);
+const emit = defineEmits(["openFile", "toggleShowForm",
+  "createFile", "fileAction"]);
 const showNewFileForm = inject<Ref<boolean>>("showNewFileForm");
 const filesTree = inject<Ref<FileMap | {}>>("filesTree");
 const currentSubTree = reactive({
@@ -94,37 +99,58 @@ const contextMenuActions = ref([
   { label: 'Удалить', action: 'delete' },
 ]);
 const showContext = ref<boolean>(false);
+const contextNode = ref<FileNode | null>(null);
 const contextMenuNodePath = ref<string | null>(null);
 const menuX = ref(0);
 const menuY = ref(0);
 
-const showContextMenu = (event, path: string) => {
+const showContextMenu = (event, path: string, node: FileNode) => {
   showContext.value = true;
+  contextNode.value = node;
   contextMenuNodePath.value = path;
   menuX.value = event.x;
   menuY.value = event.y;
 };
 
 function handleActionClick(action) {
-  console.log(action);
+  props.eventBus.emit("contextAction", {
+    action,
+    path: contextMenuNodePath.value,
+    node: contextNode.value,
+  });
+  showContext.value = false;
 }
 
 watch(() => showNewFileForm.value, handleShowNewFileForm);
 
 onBeforeMount(() => {
-  props.socket.on("newFile", insertNewFile)
-  props.eventBus.on("newFileClick", handleNewFileClick)
+  props.socket.on("newFile", insertNewFile);
+  props.eventBus.on("newFileClick", handleNewFileClick);
+  props.eventBus.on("changes", handleChanges);
 });
 
 onBeforeUnmount(() => {
   props.socket.off('newFile', insertNewFile);
-  props.eventBus.off("newFileClick", handleNewFileClick)
+  props.eventBus.off("newFileClick", handleNewFileClick);
+  props.eventBus.off("changes", handleChanges);
 });
 
 function handleNewFileClick(data: {type: FileType, extension: string | null}) {
-  console.log(data)
   newFile.type = data.type;
   newFile.extension = data.extension;
+}
+
+function handleChanges(data: Changes) {
+  if (data.action === "edit") {
+    return;
+  }
+
+  console.log(data)
+  switch (data.action) {
+    case "rename": return renameFile(data.file.path, data.changedFile.name);
+    case "delete": return deleteFile(data.file.path);
+    default: return;
+  }
 }
 
 function handleShowNewFileForm(val) {
@@ -149,7 +175,6 @@ function handleFileCreate() {
     ...newFile,
     path: currentSubTree.path
   };
-  console.log(fileData)
 
   emit("createFile", fileData);
   emit("toggleShowForm", false);
@@ -176,10 +201,8 @@ function clearNewFile() {
 }
 
 function resetSubtree() {
-  emit("selectSubtree", {
-    id: null,
-    path: '',
-  });
+  currentSubTree.id = null;
+  currentSubTree.path = '';
 }
 
 function changeSubtree(data: {path: string, id: number}) {
@@ -214,6 +237,59 @@ function removePlaceholder() {
       delete currentTree[file];
       return;
     }
+  }
+}
+
+function renameFile(filePath: string, newFilename: string): void {
+  const nodeInfo = findNodeByPath(filePath);
+  if (nodeInfo) {
+    const { targetNode, filename } = nodeInfo;
+    const node = targetNode[filename];
+    delete targetNode[filename];
+    targetNode[newFilename] = node;
+  }
+}
+
+function deleteFile(filePath: string): void {
+  const nodeInfo = findNodeByPath(filePath);
+  if (nodeInfo) {
+    const { targetNode, filename } = nodeInfo;
+    delete targetNode[filename];
+  }
+}
+
+function transferFile(sourcePath: string, destinationPath: string): void {
+  const sourceNodeInfo = findNodeByPath(sourcePath);
+  const destinationNodeInfo = findNodeByPath(destinationPath);
+
+  if (sourceNodeInfo && destinationNodeInfo) {
+    const { targetNode: sourceNode, filename: sourceFilename } = sourceNodeInfo;
+    const { targetNode: destinationNode, filename: destinationFilename } = destinationNodeInfo;
+
+    const node = sourceNode[sourceFilename];
+    delete sourceNode[sourceFilename];
+    destinationNode[destinationFilename] = node;
+  }
+}
+
+function findNodeByPath(path: string): { targetNode: FileMap, filename: string } | undefined {
+  const pathParts = path.split('/');
+  let currentNode: FileMap = filesTree.value;
+  let filename = '';
+
+  for (let i = 0; i < pathParts.length; i++) {
+    filename = pathParts[i];
+    if (typeof currentNode[filename] === 'string') {
+      break;
+    } else if (i !== pathParts.length - 1) {
+      currentNode = currentNode[filename].content as FileMap;
+    }
+  }
+
+  if (filename) {
+    return { targetNode: currentNode, filename };
+  } else {
+    return undefined;
   }
 }
 </script>

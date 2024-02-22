@@ -10,7 +10,9 @@
       <span>/</span>
       <input :disabled="owner === false"
              class="project-name editable-block"
-             v-model.trim="editableProjectName" />
+             v-model.trim="editableProjectName"
+             oninput="this.style.width = ((this.value.length + 1) * 8) + 'px';"
+      />
       <div class="project-visibility">
         <PublicIcon :class="{public: projectPublic}" />
         <v-tooltip

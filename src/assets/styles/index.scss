@@ -203,9 +203,16 @@ button {
   justify-content: space-between;
 }
 
+.title_rename {
+  //padding: 7px!important;
+}
+
 .editable-block {
   border-radius: 2px;
+  width: min-content;
+  margin: 2px;
   padding: 2px;
+  color: variables.$text-primary-color;
 
   &:focus {
     outline: 2px solid lighten(variables.$dark-gray-color, 20%);

@@ -84,12 +84,21 @@ export type User = {
   picture?: string;
 }
 
+export type FileActions = 'rename' | 'delete' | 'transfer' | 'edit';
+
 export interface Changes {
-  user: User
-  timeSent: string
   projectCodeName: string
-  fileName: string,
-  content: typeof Blob
+  file: ProjectFile,
+  action: FileActions
+
+  changedFile: {
+    name: string,
+    extension: string | null,
+    type: FileType | null,
+    path: string,
+    content: string | null,
+    removed: boolean,
+  }
 }
 
 export interface ServerToClientEvents {
@@ -131,8 +140,10 @@ export interface FileMap {
   [filename: string]: FileNode;
 }
 
-// export interface FileTree {
-//   id: number;
-//   type: FileType;
-//   content: string | FileMap;
-// }
+export type ContextMenuActionsTypes = 'rename' | 'delete';
+
+export interface ContextMenuAction {
+  action: ContextMenuActionsTypes,
+  path: string,
+  node: FileNode
+}
