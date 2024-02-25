@@ -31,6 +31,8 @@
                       :node="filesTree[child]"
                       :eventBus
                       :level="0"
+                      @onDrag="startDrag"
+                      @onDrop="onDrop"
                       @action="emit('fileAction', $event)"
                       @selectSubtree="changeSubtree"
                       @openFile="emit('openFile', $event)"
@@ -149,6 +151,12 @@ function handleChanges(data: Changes) {
   switch (data.action) {
     case "rename": return renameFile(data.file.path, data.changedFile.name);
     case "delete": return deleteFile(data.file.path);
+    case "transfer": {
+      let path: string | string[] = data.changedFile.path.split('/');
+      path.pop();
+      path = path.join('/');
+      return transferFile(data.file.path, path);
+    }
     default: return;
   }
 }
@@ -258,7 +266,14 @@ function deleteFile(filePath: string): void {
   }
 }
 
-function transferFile(sourcePath: string, destinationPath: string): void {
+function transferFile(sourcePath: string, destinationPath: string): {
+  node: FileNode, filename: string }
+  | null {
+  if (destinationPath === sourcePath ||
+    destinationPath.startsWith(sourcePath + '/')) {
+    return;
+  }
+
   const sourceNodeInfo = findNodeByPath(sourcePath);
   const destinationNodeInfo = findNodeByPath(destinationPath);
 
@@ -268,8 +283,11 @@ function transferFile(sourcePath: string, destinationPath: string): void {
 
     const node = sourceNode[sourceFilename];
     delete sourceNode[sourceFilename];
-    destinationNode[destinationFilename] = node;
+    destinationNode[destinationFilename].content[sourceFilename] = node;
+    return {node, filename: sourceFilename};
   }
+
+  return null;
 }
 
 function findNodeByPath(path: string): { targetNode: FileMap, filename: string } | undefined {
@@ -290,6 +308,34 @@ function findNodeByPath(path: string): { targetNode: FileMap, filename: string }
     return { targetNode: currentNode, filename };
   } else {
     return undefined;
+  }
+}
+
+function startDrag(e: DragEventInit, path: string) {
+  e.dataTransfer.dropEffect = "move";
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer?.setData("path", path?.value);
+}
+
+function onDrop(e: DragEvent, targetPath: string) {
+  const nodePath = e.dataTransfer?.getData("path") || '';
+  const data = transferFile(nodePath, targetPath?.value);
+  if (data) {
+    const {node: newNode, filename} = data;
+    const file = {
+      name: filename,
+      type: newNode.type,
+      path: nodePath,
+      content: newNode.content,
+    };
+    emit("fileAction", {
+      action: 'transfer',
+      file,
+      changedFile: {
+        ...file,
+        path: targetPath?.value + '/' + filename,
+      }
+    });
   }
 }
 </script>

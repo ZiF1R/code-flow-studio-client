@@ -2,6 +2,8 @@
   <div v-if="node.type === 'file'" class="tree-node"
        :class="{'tree-node_placeholder': node.placeholder}"
        :style="{marginLeft: `${20 * level}px`}"
+       draggable="true"
+       @dragstart="handleDrag"
        @click="emit('openFile', title)"
        @contextmenu.prevent.stop="(e) => showContextMenu(e, undefined, node)"
        @blur="finishRename"
@@ -23,6 +25,11 @@
            :style="{marginLeft: `${20 * level}px`}"
            :class="{'tree-folder_active': currentSubTree.id ===
                    node.id}"
+           draggable="true"
+           @dragstart="handleDrag"
+           @drop="handleDrop"
+           @dragover.prevent
+           @dragenter.prevent
            @click="selectSubtree"
            @contextmenu.prevent.stop="(e) => showContextMenu(e, undefined, node)">
         <div>
@@ -41,6 +48,9 @@
                     :node="node.content[child]"
                     :eventBus
                     :level="level + 1"
+                    :dir="fullPath"
+                    @onDrag="handleDrag"
+                    @onDrop="handleDrop"
                     @action="handleNodeAction"
                     @selectSubtree="changeSubtree"
                     @openFile="emit('openFile', `${title}/${$event}`)"
@@ -54,6 +64,7 @@
 import {defineProps} from "vue/dist/vue";
 import {ContextMenuAction, FileNode} from "@/utils/types/global.types";
 import {
+  computed,
   defineEmits,
   inject, nextTick,
   onBeforeMount,
@@ -71,18 +82,20 @@ import {debounce, throttle} from "@/utils/helpers/helpers";
 
 const props = defineProps<{
   title: string,
+  dir?: string,
   node: FileNode,
   eventBus: TinyEmitter,
   level: number
 }>();
 const emit = defineEmits(["selectSubtree", "openFile", "showContextMenu",
-  "action"]);
+  "action", "onDrag", "onDrop"]);
 const currentSubTree = inject<{
   id: number | null,
   path: string
 }>("currentSubTree");
 
 const newTitle = ref<string>(props.title);
+const fullPath = computed<string>(() => props.dir ? `${props.dir}/${props.title}` : props.title);
 const renameAction = ref<boolean>(false);
 
 watch(() => props.title, (val) => newTitle.value = val);
@@ -94,6 +107,14 @@ onBeforeMount(() => {
 onBeforeUnmount(() => {
   props.eventBus.off("contextAction", handleContextAction);
 });
+
+function handleDrag(e, path?: string) {
+  emit("onDrag", e, path || fullPath);
+}
+
+function handleDrop(e, path?: string) {
+  emit("onDrop", e, path || fullPath);
+}
 
 const finishRename = throttle(() => {
   if (newTitle.value.trim() === '') {

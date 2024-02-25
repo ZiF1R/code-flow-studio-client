@@ -122,7 +122,7 @@ function handleFileAction(data) {
     ...data,
     projectCodeName: project.value?.codeName,
   });
-  eventBus.emit("changes", data);
+  //eventBus.emit("changes", data);
 }
 
 onBeforeMount(async () => {
